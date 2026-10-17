@@ -13,8 +13,42 @@ import {
 } from "../data/productBackend";
 import "./ProductDetailsPage.css";
 
-export default function ProductDetails() {
-    const product = productData;
+import type { ProductCardItem } from "../models/product";
+import type { CategoryProductItem } from "../models/categoryPage";
+
+export interface ProductDetailsProps {
+    selectedProduct?: ProductCardItem | CategoryProductItem | null;
+}
+
+export default function ProductDetails({ selectedProduct }: ProductDetailsProps) {
+    const price = selectedProduct ? selectedProduct.price : productData.price;
+    const originalPrice = selectedProduct?.originalPrice ?? productData.originalPrice;
+    const hasDiscount = Boolean(originalPrice && originalPrice > price);
+    const discountSavings = hasDiscount && originalPrice ? originalPrice - price : 0;
+
+    const product = {
+        ...productData,
+        title: selectedProduct ? selectedProduct.title : productData.title,
+        brand: selectedProduct ? selectedProduct.brand : productData.brand,
+        price,
+        originalPrice,
+        hasDiscount,
+        discountSavings,
+        formattedPrice: `$${price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+        formattedOriginalPrice: originalPrice
+            ? `$${originalPrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+            : undefined,
+        formattedSavings: hasDiscount
+            ? `$${discountSavings.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+            : undefined,
+        description:
+            selectedProduct && "specs" in selectedProduct
+                ? selectedProduct.specs.join(" ")
+                : productData.description,
+        images: selectedProduct
+            ? [selectedProduct.imageUrl, ...productData.images.slice(1)]
+            : productData.images,
+    };
 
     const [imagenActual, setImagenActual] = useState(product.images[0]);
     const [stock, setStock] = useState(1);

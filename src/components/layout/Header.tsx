@@ -3,7 +3,6 @@ import { useState } from "react";
 export interface NavItem {
     id: string;
     label: string;
-    isSpecial?: boolean;
 }
 
 export interface HeaderProps {
@@ -11,6 +10,9 @@ export interface HeaderProps {
     brandSecond?: string;
     cartCount?: number;
     initialTab?: string;
+    isSearchOpen?: boolean;
+    searchQuery?: string;
+    onSearchQueryChange?: (value: string) => void;
     onTabChange?: (tabId: string) => void;
     onSearchClick?: () => void;
     onCartClick?: () => void;
@@ -19,9 +21,8 @@ export interface HeaderProps {
 const defaultNavItems: NavItem[] = [
     { id: "inicio", label: "Inicio" },
     { id: "laptops", label: "Laptops" },
-    { id: "componentes", label: "Componentes" },
-    { id: "armado-pc", label: "Armado de PC" },
-    { id: "ofertas", label: "Ofertas", isSpecial: true },
+    { id: "monitores", label: "Monitores" },
+    { id: "perifericos", label: "Periféricos" },
 ];
 
 export default function Header({
@@ -29,14 +30,17 @@ export default function Header({
     brandSecond = "Digital",
     cartCount = 2,
     initialTab = "inicio",
+    isSearchOpen = false,
+    searchQuery = "",
+    onSearchQueryChange,
     onTabChange,
     onSearchClick,
     onCartClick,
 }: HeaderProps) {
-    const [activeTab, setActiveTab] = useState(initialTab);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleTabSelect = (tabId: string) => {
-        setActiveTab(tabId);
+        setIsDropdownOpen(false);
         onTabChange?.(tabId);
     };
 
@@ -64,10 +68,18 @@ export default function Header({
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
+                    gap: "1rem",
                     boxSizing: "border-box",
                 }}
             >
-                <div style={{ display: "flex", alignItems: "center", gap: "2.5rem" }}>
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: isSearchOpen ? "1.1rem" : "2.5rem",
+                        transition: "gap 0.25s ease",
+                    }}
+                >
                     <div
                         onClick={() => handleTabSelect("inicio")}
                         role="button"
@@ -78,6 +90,7 @@ export default function Header({
                             gap: "0.6rem",
                             cursor: "pointer",
                             userSelect: "none",
+                            flexShrink: 0,
                         }}
                     >
                         <div
@@ -104,19 +117,27 @@ export default function Header({
                         </div>
                     </div>
 
-                    <nav style={{ display: "flex", alignItems: "center" }}>
+                    <nav
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            transform: isSearchOpen ? "translateX(-8px)" : "translateX(0)",
+                            transition: "transform 0.25s ease",
+                        }}
+                    >
                         <ul
                             style={{
                                 display: "flex",
                                 alignItems: "center",
-                                gap: "0.5rem",
+                                gap: isSearchOpen ? "0.2rem" : "0.5rem",
                                 listStyle: "none",
                                 margin: 0,
                                 padding: 0,
+                                transition: "gap 0.25s ease",
                             }}
                         >
                             {defaultNavItems.map(item => {
-                                const isActive = activeTab === item.id;
+                                const isActive = initialTab === item.id;
                                 return (
                                     <li key={item.id}>
                                         <button
@@ -125,18 +146,15 @@ export default function Header({
                                             style={{
                                                 background: isActive ? "#eff6ff" : "none",
                                                 border: "none",
-                                                padding: "0.5rem 0.85rem",
+                                                padding: isSearchOpen ? "0.45rem 0.65rem" : "0.5rem 0.85rem",
                                                 borderRadius: "6px",
-                                                fontSize: "0.92rem",
+                                                fontSize: "0.9rem",
                                                 fontWeight: isActive ? 700 : 500,
-                                                color: item.isSpecial
-                                                    ? "#ef4444"
-                                                    : isActive
-                                                    ? "#2563eb"
-                                                    : "#475569",
+                                                color: isActive ? "#2563eb" : "#475569",
                                                 cursor: "pointer",
-                                                transition: "all 0.15s ease",
+                                                transition: "all 0.2s ease",
                                                 fontFamily: "inherit",
+                                                whiteSpace: "nowrap",
                                             }}
                                         >
                                             {item.label}
@@ -144,32 +162,132 @@ export default function Header({
                                     </li>
                                 );
                             })}
+
+                            <li style={{ position: "relative" }}>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                    style={{
+                                        background: isDropdownOpen ? "#eff6ff" : "none",
+                                        border: "none",
+                                        padding: isSearchOpen ? "0.45rem 0.65rem" : "0.5rem 0.85rem",
+                                        borderRadius: "6px",
+                                        fontSize: "0.9rem",
+                                        fontWeight: 500,
+                                        color: "#475569",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: "4px",
+                                        fontFamily: "inherit",
+                                        whiteSpace: "nowrap",
+                                        transition: "all 0.2s ease",
+                                    }}
+                                >
+                                    <span>Más categorías</span>
+                                    <span style={{ fontSize: "0.75rem" }}>▾</span>
+                                </button>
+
+                                {isDropdownOpen && (
+                                    <ul
+                                        style={{
+                                            position: "absolute",
+                                            top: "110%",
+                                            left: 0,
+                                            minWidth: "180px",
+                                            minHeight: "40px",
+                                            backgroundColor: "#ffffff",
+                                            border: "1px solid #e2e8f0",
+                                            borderRadius: "8px",
+                                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+                                            listStyle: "none",
+                                            margin: 0,
+                                            padding: "8px",
+                                            zIndex: 200,
+                                        }}
+                                    />
+                                )}
+                            </li>
                         </ul>
                     </nav>
                 </div>
 
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                    <button
-                        type="button"
-                        aria-label="Buscar"
-                        onClick={onSearchClick}
-                        style={{
-                            background: "none",
-                            border: "none",
-                            padding: "0.5rem",
-                            borderRadius: "50%",
-                            color: "#334155",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }}
-                    >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                    </button>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flex: isSearchOpen ? 1 : "unset", justifyContent: "flex-end", marginLeft: isSearchOpen ? "1rem" : 0 }}>
+                    {isSearchOpen ? (
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                width: "100%",
+                                maxWidth: "560px",
+                                backgroundColor: "#f8fafc",
+                                border: "1px solid #cbd5e1",
+                                borderRadius: "999px",
+                                padding: "7px 16px",
+                                boxSizing: "border-box",
+                            }}
+                        >
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+
+                            <input
+                                type="text"
+                                autoFocus
+                                placeholder="Buscar laptops, monitores..."
+                                value={searchQuery}
+                                onChange={e => onSearchQueryChange?.(e.target.value)}
+                                style={{
+                                    flex: 1,
+                                    border: "none",
+                                    outline: "none",
+                                    backgroundColor: "transparent",
+                                    fontSize: "0.88rem",
+                                    color: "#0f172a",
+                                }}
+                            />
+
+                            <button
+                                type="button"
+                                onClick={onSearchClick}
+                                style={{
+                                    background: "none",
+                                    border: "none",
+                                    padding: "2px",
+                                    color: "#64748b",
+                                    cursor: "pointer",
+                                    fontSize: "0.85rem",
+                                    fontWeight: 700,
+                                }}
+                            >
+                                ✕
+                            </button>
+                        </div>
+                    ) : (
+                        <button
+                            type="button"
+                            aria-label="Buscar"
+                            onClick={onSearchClick}
+                            style={{
+                                background: "none",
+                                border: "none",
+                                padding: "0.5rem",
+                                borderRadius: "50%",
+                                color: "#334155",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="11" cy="11" r="8" />
+                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                            </svg>
+                        </button>
+                    )}
 
                     <button
                         type="button"
@@ -186,6 +304,7 @@ export default function Header({
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
+                            flexShrink: 0,
                         }}
                     >
                         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
