@@ -64,7 +64,7 @@ export default function FeaturedCategories({
         <section
             style={{
                 width: "100%",
-                padding: overlap ? "0 1.5rem 3rem 1.5rem" : "3rem 1.5rem",
+                padding: overlap ? "0 2rem 2.5rem 2rem" : "1rem 2rem 2.5rem 2rem",
                 boxSizing: "border-box",
                 display: "flex",
                 justifyContent: "center",
@@ -77,7 +77,7 @@ export default function FeaturedCategories({
             <div
                 style={{
                     width: "100%",
-                    maxWidth: "1200px",
+                    maxWidth: "1440px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",

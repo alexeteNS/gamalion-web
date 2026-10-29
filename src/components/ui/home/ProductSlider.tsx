@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import type { ProductCardItem } from "../../../models/product";
+import { getTabUrl, isPlainLeftClick } from "../../../data/urlRouter";
 import ProductCard from "./ProductCard";
 
 export interface ProductSliderProps {
@@ -47,13 +48,13 @@ export default function ProductSlider({
         <section
             style={{
                 width: "100%",
-                maxWidth: "1240px",
+                maxWidth: "1440px",
                 backgroundColor: "#ffffff",
-                border: "1px solid #e2e8f0",
+                border: "1px solid #dce5f2",
                 borderRadius: "20px",
                 padding: "1.75rem 2rem",
                 boxSizing: "border-box",
-                boxShadow: "0 2px 12px rgba(0, 0, 0, 0.03)",
+                boxShadow: "0 4px 18px rgba(15, 23, 42, 0.04)",
                 display: "flex",
                 flexDirection: "column",
                 margin: "0 auto 2.5rem auto",
@@ -192,12 +193,11 @@ export default function ProductSlider({
                     </div>
                 ))}
 
-                <div
-                    onClick={() => onViewAll?.(category)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
+                <a
+                    href={getTabUrl(category)}
+                    onClick={(e) => {
+                        if (isPlainLeftClick(e)) {
+                            e.preventDefault();
                             onViewAll?.(category);
                         }
                     }}
@@ -217,6 +217,7 @@ export default function ProductSlider({
                         cursor: "pointer",
                         transition: "all 0.2s ease",
                         textAlign: "center",
+                        textDecoration: "none",
                     }}
                 >
                     <div
@@ -269,7 +270,7 @@ export default function ProductSlider({
                     >
                         Explorar catálogo completo
                     </span>
-                </div>
+                </a>
             </div>
         </section>
     );

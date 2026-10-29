@@ -50,11 +50,13 @@ export default function WidgetCard({
                 >
                     <div
                         style={{
+                            position: "relative",
                             width: "100%",
                             aspectRatio: "1",
-                            borderRadius: "8px",
+                            borderRadius: "10px",
                             overflow: "hidden",
-                            backgroundColor: "#0b1120",
+                            backgroundColor: "#0f172a",
+                            border: "1px solid #e2e8f0",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -68,22 +70,37 @@ export default function WidgetCard({
                                 height: "100%",
                                 objectFit: "cover",
                                 display: "block",
+                                opacity: 0.82,
                             }}
                         />
+                        <div
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                background: "linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.82) 100%)",
+                                display: "flex",
+                                alignItems: "flex-end",
+                                justifyContent: "center",
+                                padding: "0.65rem",
+                            }}
+                        >
+                            <span
+                                style={{
+                                    fontSize: "0.78rem",
+                                    fontWeight: 800,
+                                    color: "#ffffff",
+                                    textTransform: "uppercase",
+                                    letterSpacing: "0.06em",
+                                    backgroundColor: "rgba(37, 99, 235, 0.88)",
+                                    padding: "0.25rem 0.6rem",
+                                    borderRadius: "6px",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {item.title}
+                            </span>
+                        </div>
                     </div>
-                    <span
-                        style={{
-                            fontSize: "0.72rem",
-                            fontWeight: 700,
-                            color: "#475569",
-                            textTransform: "uppercase",
-                            marginTop: "0.45rem",
-                            textAlign: "center",
-                            letterSpacing: "0.04em",
-                        }}
-                    >
-                        {item.title}
-                    </span>
                 </div>
             ))}
         </div>
@@ -167,138 +184,127 @@ export default function WidgetCard({
             style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: "0.9rem",
+                justifyContent: "space-between",
+                gap: "0.75rem",
                 width: "100%",
+                flex: 1,
             }}
         >
-            {w.items.map((item) => (
-                <div
-                    key={item.id}
-                    onClick={() => onItemClick?.(item)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                            onItemClick?.(item);
-                        }
-                    }}
-                    style={{
-                        display: "flex",
-                        gap: "0.85rem",
-                        alignItems: "center",
-                        cursor: "pointer",
-                        padding: "0.25rem 0",
-                    }}
-                >
+            {w.items.map((item) => {
+                const savings =
+                    item.originalPrice && item.originalPrice > item.price
+                        ? item.originalPrice - item.price
+                        : null;
+
+                return (
                     <div
-                        style={{
-                            width: "56px",
-                            height: "56px",
-                            minWidth: "56px",
-                            borderRadius: "8px",
-                            overflow: "hidden",
-                            backgroundColor: "#f8fafc",
-                            border: "1px solid #f1f5f9",
+                        key={item.id}
+                        onClick={() => onItemClick?.(item)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                onItemClick?.(item);
+                            }
                         }}
-                    >
-                        <img
-                            src={item.imageUrl}
-                            alt={item.title}
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                                display: "block",
-                            }}
-                        />
-                    </div>
-                    <div
                         style={{
                             display: "flex",
-                            flexDirection: "column",
-                            flex: 1,
-                            minWidth: 0,
+                            gap: "0.95rem",
+                            alignItems: "center",
+                            cursor: "pointer",
+                            padding: "0.8rem",
+                            backgroundColor: "#f8fafc",
+                            border: "1px solid #e2e8f0",
+                            borderRadius: "12px",
+                            boxSizing: "border-box",
                         }}
                     >
-                        <span
+                        <div
                             style={{
-                                fontSize: "0.85rem",
-                                fontWeight: 600,
-                                color: "#1e293b",
-                                margin: "0 0 0.2rem 0",
-                                whiteSpace: "nowrap",
+                                width: "72px",
+                                height: "72px",
+                                minWidth: "72px",
+                                borderRadius: "10px",
                                 overflow: "hidden",
-                                textOverflow: "ellipsis",
+                                backgroundColor: "#ffffff",
+                                border: "1px solid #e2e8f0",
                             }}
                         >
-                            {item.title}
-                        </span>
+                            <img
+                                src={item.imageUrl}
+                                alt={item.title}
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                    display: "block",
+                                }}
+                            />
+                        </div>
                         <div
                             style={{
                                 display: "flex",
-                                alignItems: "baseline",
-                                gap: "0.45rem",
+                                flexDirection: "column",
+                                flex: 1,
+                                minWidth: 0,
+                                gap: "0.25rem",
                             }}
                         >
                             <span
                                 style={{
-                                    fontSize: "0.95rem",
-                                    fontWeight: 800,
+                                    fontSize: "0.9rem",
+                                    fontWeight: 700,
                                     color: "#0f172a",
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
                                 }}
                             >
-                                {item.formattedPrice || `$${item.price.toFixed(2)}`}
+                                {item.title}
                             </span>
-                            {item.originalPrice && item.originalPrice > item.price && (
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "baseline",
+                                    gap: "0.5rem",
+                                }}
+                            >
                                 <span
                                     style={{
-                                        fontSize: "0.78rem",
-                                        color: "#94a3b8",
-                                        textDecoration: "line-through",
+                                        fontSize: "1.05rem",
+                                        fontWeight: 800,
+                                        color: "#0f172a",
                                     }}
                                 >
-                                    {item.formattedOriginalPrice || `$${item.originalPrice.toFixed(2)}`}
+                                    {item.formattedPrice || `$${item.price.toFixed(2)}`}
+                                </span>
+                                {item.originalPrice && item.originalPrice > item.price && (
+                                    <span
+                                        style={{
+                                            fontSize: "0.8rem",
+                                            color: "#94a3b8",
+                                            textDecoration: "line-through",
+                                        }}
+                                    >
+                                        {item.formattedOriginalPrice || `$${item.originalPrice.toFixed(2)}`}
+                                    </span>
+                                )}
+                            </div>
+                            {savings && (
+                                <span
+                                    style={{
+                                        fontSize: "0.75rem",
+                                        fontWeight: 600,
+                                        color: "#16a34a",
+                                    }}
+                                >
+                                    Ahorras ${savings.toFixed(0)} · Entrega local
                                 </span>
                             )}
                         </div>
-                        {item.soldPercentage !== undefined && (
-                            <>
-                                <div
-                                    style={{
-                                        width: "100%",
-                                        height: "3px",
-                                        backgroundColor: "#fee2e2",
-                                        borderRadius: "2px",
-                                        overflow: "hidden",
-                                        marginTop: "0.35rem",
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            width: `${Math.min(100, Math.max(0, item.soldPercentage))}%`,
-                                            height: "100%",
-                                            backgroundColor: "#ef4444",
-                                            borderRadius: "2px",
-                                        }}
-                                    />
-                                </div>
-                                <span
-                                    style={{
-                                        fontSize: "0.65rem",
-                                        fontWeight: 800,
-                                        color: "#ef4444",
-                                        textTransform: "uppercase",
-                                        marginTop: "0.2rem",
-                                        letterSpacing: "0.03em",
-                                    }}
-                                >
-                                    {item.soldPercentage}% VENDIDO
-                                </span>
-                            </>
-                        )}
                     </div>
-                </div>
-            ))}
+                );
+            })}
         </div>
     );
 
@@ -396,7 +402,7 @@ export default function WidgetCard({
                 height: "100%",
             }}
         >
-            <header style={{ marginBottom: "1.25rem" }}>
+            <header style={{ marginBottom: "1rem" }}>
                 <h3
                     style={{
                         fontSize: "1.25rem",
@@ -416,7 +422,7 @@ export default function WidgetCard({
                     flex: 1,
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "center",
+                    justifyContent: "flex-start",
                 }}
             >
                 {widget.type === "grid" && renderGridBody(widget as GridWidget)}

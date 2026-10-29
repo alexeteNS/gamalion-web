@@ -61,7 +61,7 @@ export default function SearchPanel({
                 zIndex: 99,
                 display: "flex",
                 justifyContent: "center",
-                padding: "0 1.5rem",
+                padding: "0 2rem",
                 boxSizing: "border-box",
                 pointerEvents: "none",
             }}
@@ -69,7 +69,7 @@ export default function SearchPanel({
             <div
                 style={{
                     width: "100%",
-                    maxWidth: "1240px",
+                    maxWidth: "1440px",
                     backgroundColor: "#ffffff",
                     border: "1px solid #e2e8f0",
                     borderTop: "none",

@@ -19,19 +19,19 @@ export default function HomeWidgets({
         <section
             style={{
                 width: "100%",
-                padding: overlap ? "0 1.5rem 2.5rem 1.5rem" : "2.5rem 1.5rem",
+                padding: overlap ? "0 2rem 2rem 2rem" : "2.5rem 2rem",
                 boxSizing: "border-box",
                 display: "flex",
                 justifyContent: "center",
                 position: overlap ? "relative" : undefined,
                 zIndex: overlap ? 3 : undefined,
-                marginTop: overlap ? "-6rem" : undefined,
+                marginTop: overlap ? "-13rem" : undefined,
             }}
         >
             <div
                 style={{
                     width: "100%",
-                    maxWidth: "1200px",
+                    maxWidth: "1440px",
                     display: "grid",
                     gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
                     gap: "1.75rem",

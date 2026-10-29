@@ -1,6 +1,10 @@
 export interface ProductDetailsModel {
     id: string;
+    sku: string;
+    model: string;
     brand: string;
+    category: string;
+    categoryLabel: string;
     title: string;
     description: string;
     price: number;
@@ -18,8 +22,12 @@ export interface ProductDetailsModel {
 
 export interface ProductCardItem {
     id: string | number;
+    sku?: string;
+    model?: string;
     title: string;
     brand: string;
+    description?: string;
+    specs?: string[];
     price: number;
     originalPrice?: number;
     discountPercentage?: number;

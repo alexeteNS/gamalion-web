@@ -3,4 +3,7 @@ export * from "./review";
 export * from "./category";
 export * from "./widget";
 export * from "./categoryPage";
-
+export * from "./cart";
+export * from "./promoBanner";
+export * from "./footer";
+export * from "./order";

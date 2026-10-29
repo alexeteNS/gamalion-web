@@ -30,17 +30,17 @@ export default function Hero({
             style={{
                 position: "relative",
                 width: "100%",
-                minHeight: "880px",
+                minHeight: "780px",
                 background:
-                    "linear-gradient(180deg, #0b1120 0%, #0b1120 28%, #0e1525 38%, #141c2c 48%, #1e2739 58%, #2d384c 68%, #445166 77%, #64738a 85%, #8f9fb6 92%, #c4cfe0 96.5%, #f1f4f9 99%, #ffffff 100%)",
+                    "linear-gradient(180deg, #102a56 0%, #163568 22%, #21457d 38%, #355b94 52%, #5378ad 66%, #7d9dc7 78%, #b0c5e0 88%, #dce7f5 95%, #f2f6fb 100%)",
                 backgroundImage:
-                    "linear-gradient(180deg in oklab, #0b1120 0%, #0b1120 28%, #ffffff 100%)",
+                    "linear-gradient(180deg in oklab, #102a56 0%, #1d3f75 30%, #4b6ea1 62%, #f2f6fb 100%)",
                 color: "#ffffff",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "flex-start",
                 alignItems: "center",
-                padding: "3.5rem 1.5rem 22rem 1.5rem",
+                padding: "3.5rem 2rem 19rem 2rem",
                 boxSizing: "border-box",
                 overflow: "visible",
             }}
@@ -50,7 +50,7 @@ export default function Hero({
                     position: "relative",
                     zIndex: 2,
                     width: "100%",
-                    maxWidth: "1200px",
+                    maxWidth: "1440px",
                     display: "grid",
                     gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
                     gap: "3rem",
@@ -75,7 +75,7 @@ export default function Hero({
                         }}
                     >
                         {titlePrefix}{" "}
-                        <span style={{ color: "#3b82f6", display: "inline-block" }}>
+                        <span style={{ color: "#7dd3fc", display: "inline-block" }}>
                             {highlightText}
                         </span>
                     </h1>
@@ -84,8 +84,8 @@ export default function Hero({
                         style={{
                             fontSize: "1.05rem",
                             lineHeight: 1.6,
-                            color: "#94a3b8",
-                            maxWidth: "480px",
+                            color: "#dbeafe",
+                            maxWidth: "520px",
                             margin: "0 0 2rem 0",
                         }}
                     >

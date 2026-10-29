@@ -1,4 +1,6 @@
 import { useState } from "react";
+import gamalionLogo from "../../assets/gamalion-logo.png";
+import { getTabUrl, isPlainLeftClick } from "../../data/urlRouter";
 
 export interface NavItem {
     id: string;
@@ -25,6 +27,14 @@ const defaultNavItems: NavItem[] = [
     { id: "perifericos", label: "Periféricos" },
 ];
 
+const extraCategoryItems: NavItem[] = [
+    { id: "componentes", label: "Componentes" },
+    { id: "procesadores", label: "Procesadores" },
+    { id: "tarjetas-de-video", label: "Tarjetas de Video" },
+    { id: "almacenamiento", label: "Almacenamiento" },
+    { id: "armado-pc", label: "Armado de PC" },
+];
+
 export default function Header({
     brandFirst = "Gamalion",
     brandSecond = "Digital",
@@ -39,9 +49,18 @@ export default function Header({
 }: HeaderProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const handleTabSelect = (tabId: string) => {
+    const handleTabSelect = (e: React.MouseEvent, tabId: string) => {
+        if (!isPlainLeftClick(e)) return;
+        e.preventDefault();
         setIsDropdownOpen(false);
         onTabChange?.(tabId);
+    };
+
+    const handleCartLinkClick = (e: React.MouseEvent) => {
+        if (!isPlainLeftClick(e)) return;
+        e.preventDefault();
+        setIsDropdownOpen(false);
+        onCartClick?.();
     };
 
     return (
@@ -62,9 +81,9 @@ export default function Header({
             <div
                 style={{
                     width: "100%",
-                    maxWidth: "1280px",
+                    maxWidth: "1440px",
                     height: "70px",
-                    padding: "0 1.5rem",
+                    padding: "0 2rem",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
@@ -80,10 +99,9 @@ export default function Header({
                         transition: "gap 0.25s ease",
                     }}
                 >
-                    <div
-                        onClick={() => handleTabSelect("inicio")}
-                        role="button"
-                        tabIndex={0}
+                    <a
+                        href={getTabUrl("inicio")}
+                        onClick={e => handleTabSelect(e, "inicio")}
                         style={{
                             display: "flex",
                             alignItems: "center",
@@ -91,6 +109,7 @@ export default function Header({
                             cursor: "pointer",
                             userSelect: "none",
                             flexShrink: 0,
+                            textDecoration: "none",
                         }}
                     >
                         <div
@@ -103,19 +122,26 @@ export default function Header({
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
+                                padding: "4px",
+                                boxSizing: "border-box",
                             }}
                         >
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <rect x="4" y="4" width="16" height="16" rx="2" />
-                                <rect x="9" y="9" width="6" height="6" />
-                                <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
-                            </svg>
+                            <img
+                                src={gamalionLogo}
+                                alt="Gamalion Digital Logo"
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "contain",
+                                    display: "block",
+                                }}
+                            />
                         </div>
                         <div style={{ display: "flex", alignItems: "baseline", gap: "0.25rem", fontSize: "1.25rem", fontWeight: 800 }}>
                             <span style={{ color: "#0f172a" }}>{brandFirst}</span>
                             <span style={{ color: "#2563eb" }}>{brandSecond}</span>
                         </div>
-                    </div>
+                    </a>
 
                     <nav
                         style={{
@@ -140,12 +166,13 @@ export default function Header({
                                 const isActive = initialTab === item.id;
                                 return (
                                     <li key={item.id}>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleTabSelect(item.id)}
+                                        <a
+                                            href={getTabUrl(item.id)}
+                                            onClick={e => handleTabSelect(e, item.id)}
                                             style={{
+                                                display: "inline-block",
+                                                textDecoration: "none",
                                                 background: isActive ? "#eff6ff" : "none",
-                                                border: "none",
                                                 padding: isSearchOpen ? "0.45rem 0.65rem" : "0.5rem 0.85rem",
                                                 borderRadius: "6px",
                                                 fontSize: "0.9rem",
@@ -158,7 +185,7 @@ export default function Header({
                                             }}
                                         >
                                             {item.label}
-                                        </button>
+                                        </a>
                                     </li>
                                 );
                             })}
@@ -168,13 +195,21 @@ export default function Header({
                                     type="button"
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                     style={{
-                                        background: isDropdownOpen ? "#eff6ff" : "none",
+                                        background:
+                                            isDropdownOpen ||
+                                            extraCategoryItems.some(c => c.id === initialTab)
+                                                ? "#eff6ff"
+                                                : "none",
                                         border: "none",
                                         padding: isSearchOpen ? "0.45rem 0.65rem" : "0.5rem 0.85rem",
                                         borderRadius: "6px",
                                         fontSize: "0.9rem",
-                                        fontWeight: 500,
-                                        color: "#475569",
+                                        fontWeight: extraCategoryItems.some(c => c.id === initialTab)
+                                            ? 700
+                                            : 500,
+                                        color: extraCategoryItems.some(c => c.id === initialTab)
+                                            ? "#2563eb"
+                                            : "#475569",
                                         cursor: "pointer",
                                         display: "flex",
                                         alignItems: "center",
@@ -194,18 +229,49 @@ export default function Header({
                                             position: "absolute",
                                             top: "110%",
                                             left: 0,
-                                            minWidth: "180px",
-                                            minHeight: "40px",
+                                            minWidth: "190px",
                                             backgroundColor: "#ffffff",
                                             border: "1px solid #e2e8f0",
                                             borderRadius: "8px",
                                             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
                                             listStyle: "none",
                                             margin: 0,
-                                            padding: "8px",
+                                            padding: "6px",
                                             zIndex: 200,
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            gap: "2px",
                                         }}
-                                    />
+                                    >
+                                        {extraCategoryItems.map(cat => {
+                                            const isCatActive = initialTab === cat.id;
+                                            return (
+                                                <li key={cat.id}>
+                                                    <a
+                                                        href={getTabUrl(cat.id)}
+                                                        onClick={e => handleTabSelect(e, cat.id)}
+                                                        style={{
+                                                            display: "block",
+                                                            textDecoration: "none",
+                                                            width: "100%",
+                                                            textAlign: "left",
+                                                            background: isCatActive ? "#eff6ff" : "none",
+                                                            padding: "8px 12px",
+                                                            borderRadius: "6px",
+                                                            fontSize: "0.88rem",
+                                                            fontWeight: isCatActive ? 700 : 500,
+                                                            color: isCatActive ? "#2563eb" : "#334155",
+                                                            cursor: "pointer",
+                                                            fontFamily: "inherit",
+                                                            boxSizing: "border-box",
+                                                        }}
+                                                    >
+                                                        {cat.label}
+                                                    </a>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
                                 )}
                             </li>
                         </ul>
@@ -289,14 +355,13 @@ export default function Header({
                         </button>
                     )}
 
-                    <button
-                        type="button"
+                    <a
+                        href={getTabUrl("carrito")}
                         aria-label="Carrito de compras"
-                        onClick={onCartClick}
+                        onClick={handleCartLinkClick}
                         style={{
                             position: "relative",
                             background: "none",
-                            border: "none",
                             padding: "0.5rem",
                             borderRadius: "50%",
                             color: "#334155",
@@ -305,6 +370,7 @@ export default function Header({
                             alignItems: "center",
                             justifyContent: "center",
                             flexShrink: 0,
+                            textDecoration: "none",
                         }}
                     >
                         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -333,7 +399,7 @@ export default function Header({
                                 {cartCount}
                             </span>
                         )}
-                    </button>
+                    </a>
                 </div>
             </div>
         </header>

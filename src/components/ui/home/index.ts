@@ -10,3 +10,7 @@ export { default as HomeWidgets } from "./HomeWidgets";
 export type { HomeWidgetsProps } from "./HomeWidgets";
 export { default as ProductSlider } from "./ProductSlider";
 export type { ProductSliderProps } from "./ProductSlider";
+export { default as PromoBanners } from "./PromoBanners";
+export type { PromoBannersProps } from "./PromoBanners";
+export { default as BrowsingHistorySection } from "./BrowsingHistorySection";
+export type { BrowsingHistorySectionProps } from "./BrowsingHistorySection";

@@ -1,5 +1,10 @@
 import { useState } from "react";
 import type { ProductCardItem } from "../../../models/product";
+import {
+    getProductUrl,
+    isPlainLeftClick,
+    cacheDynamicProduct,
+} from "../../../data/urlRouter";
 import ViewDetailsButton from "../ViewDetailsButton";
 
 export interface ProductCardProps {
@@ -16,6 +21,7 @@ export default function ProductCard({
     onFavoriteToggle,
 }: ProductCardProps) {
     const [isFav, setIsFav] = useState(product.isFavorite || false);
+    const productHref = getProductUrl(product);
 
     const renderStars = (rating: number) => {
         return Array.from({ length: 5 }, (_, i) => {
@@ -37,14 +43,24 @@ export default function ProductCard({
         });
     };
 
+    const handleCardLinkClick = (e: React.MouseEvent) => {
+        cacheDynamicProduct(product);
+        if (!isPlainLeftClick(e)) return;
+        e.preventDefault();
+        onClick?.(product);
+    };
+
     const handleAddClick = (e: React.MouseEvent) => {
         e.stopPropagation();
+        e.preventDefault();
+        cacheDynamicProduct(product);
         onClick?.(product);
         onAddToCart?.(product);
     };
 
     const handleFavoriteClick = (e: React.MouseEvent) => {
         e.stopPropagation();
+        e.preventDefault();
         const nextState = !isFav;
         setIsFav(nextState);
         onFavoriteToggle?.({ ...product, isFavorite: nextState });
@@ -58,7 +74,6 @@ export default function ProductCard({
 
     return (
         <article
-            onClick={() => onClick?.(product)}
             style={{
                 position: "relative",
                 backgroundColor: "#ffffff",
@@ -128,110 +143,123 @@ export default function ProductCard({
                 </svg>
             </button>
 
-            <div
+            <a
+                href={productHref}
+                onMouseDown={() => cacheDynamicProduct(product)}
+                onClick={handleCardLinkClick}
                 style={{
-                    width: "100%",
-                    aspectRatio: "1 / 1",
+                    textDecoration: "none",
+                    color: "inherit",
                     display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden",
-                    borderRadius: "10px",
-                    backgroundColor: "#f8fafc",
-                    marginBottom: "1rem",
+                    flexDirection: "column",
+                    flex: 1,
                 }}
             >
-                <img
-                    src={product.imageUrl}
-                    alt={product.title}
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "contain",
-                        display: "block",
-                        transition: "transform 0.25s ease",
-                    }}
-                />
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                <span
-                    style={{
-                        fontSize: "0.75rem",
-                        fontWeight: 700,
-                        color: "#2563eb",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.06em",
-                        marginBottom: "0.35rem",
-                    }}
-                >
-                    {product.brand}
-                </span>
-
-                <h3
-                    style={{
-                        fontSize: "0.95rem",
-                        fontWeight: 700,
-                        color: "#0f172a",
-                        margin: "0 0 0.5rem 0",
-                        lineHeight: 1.35,
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        minHeight: "2.7em",
-                    }}
-                >
-                    {product.title}
-                </h3>
-
                 <div
                     style={{
+                        width: "100%",
+                        aspectRatio: "1 / 1",
                         display: "flex",
                         alignItems: "center",
-                        gap: "0.35rem",
+                        justifyContent: "center",
+                        overflow: "hidden",
+                        borderRadius: "10px",
+                        backgroundColor: "#f8fafc",
                         marginBottom: "1rem",
                     }}
                 >
-                    <div style={{ display: "flex", alignItems: "center", gap: "2px" }}>
-                        {renderStars(product.rating)}
-                    </div>
-                    <span
+                    <img
+                        src={product.imageUrl}
+                        alt={product.title}
                         style={{
-                            fontSize: "0.78rem",
-                            color: "#64748b",
-                            fontWeight: 500,
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "contain",
+                            display: "block",
+                            transition: "transform 0.25s ease",
                         }}
-                    >
-                        ({product.reviewCount})
-                    </span>
-                </div>
-
-                <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginTop: "auto",
-                        paddingTop: "0.5rem",
-                    }}
-                >
-                    <span
-                        style={{
-                            fontSize: "1.2rem",
-                            fontWeight: 800,
-                            color: "#0f172a",
-                        }}
-                    >
-                        ${product.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </span>
-
-                    <ViewDetailsButton
-                        variant="icon"
-                        onClick={handleAddClick}
                     />
                 </div>
-            </div>
+
+                <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                    <span
+                        style={{
+                            fontSize: "0.75rem",
+                            fontWeight: 700,
+                            color: "#2563eb",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.06em",
+                            marginBottom: "0.35rem",
+                        }}
+                    >
+                        {product.brand}
+                    </span>
+
+                    <h3
+                        style={{
+                            fontSize: "0.95rem",
+                            fontWeight: 700,
+                            color: "#0f172a",
+                            margin: "0 0 0.5rem 0",
+                            lineHeight: 1.35,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            minHeight: "2.7em",
+                        }}
+                    >
+                        {product.title}
+                    </h3>
+
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.35rem",
+                            marginBottom: "1rem",
+                        }}
+                    >
+                        <div style={{ display: "flex", alignItems: "center", gap: "2px" }}>
+                            {renderStars(product.rating)}
+                        </div>
+                        <span
+                            style={{
+                                fontSize: "0.78rem",
+                                color: "#64748b",
+                                fontWeight: 500,
+                            }}
+                        >
+                            ({product.reviewCount})
+                        </span>
+                    </div>
+
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginTop: "auto",
+                            paddingTop: "0.5rem",
+                        }}
+                    >
+                        <span
+                            style={{
+                                fontSize: "1.2rem",
+                                fontWeight: 800,
+                                color: "#0f172a",
+                            }}
+                        >
+                            ${product.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+
+                        <ViewDetailsButton
+                            variant="icon"
+                            onClick={handleAddClick}
+                        />
+                    </div>
+                </div>
+            </a>
         </article>
     );
 }

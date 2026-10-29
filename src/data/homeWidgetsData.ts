@@ -2,34 +2,34 @@ import type { HomeWidget, GridWidget, SingleWidget, ListWidget, SliderWidget } f
 
 export const eliteComponentsWidget: GridWidget = {
     id: "elite-components",
-    title: "Componentes de Elite",
+    title: "Marcas Destacadas",
     type: "grid",
-    linkText: "Explorar todo →",
-    linkUrl: "/categoria/componentes",
+    linkText: "Explorar catálogo →",
+    linkUrl: "/categoria/laptops",
     items: [
         {
-            id: "comp-mb",
-            title: "MAINBOARDS",
-            imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80",
-            link: "/categoria/mainboards"
+            id: "brand-asus",
+            title: "ASUS ROG",
+            imageUrl: "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=400&q=80",
+            link: "/categoria/laptops"
         },
         {
-            id: "comp-gpu",
-            title: "GPUS",
+            id: "brand-nvidia",
+            title: "NVIDIA GEFORCE",
             imageUrl: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=400&q=80",
             link: "/categoria/tarjetas-de-video"
         },
         {
-            id: "comp-cpu",
-            title: "PROCESSORS",
-            imageUrl: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=400&q=80",
-            link: "/categoria/procesadores"
+            id: "brand-lenovo",
+            title: "LENOVO LEGION",
+            imageUrl: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=400&q=80",
+            link: "/categoria/laptops"
         },
         {
-            id: "comp-ram",
-            title: "MEMORY",
-            imageUrl: "https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=400&q=80",
-            link: "/categoria/memoria-ram"
+            id: "brand-logitech",
+            title: "LOGITECH G",
+            imageUrl: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=400&q=80",
+            link: "/categoria/perifericos"
         }
     ]
 };
@@ -75,6 +75,7 @@ export const flashOffersWidget: ListWidget = {
             formattedPrice: "$165.00",
             formattedOriginalPrice: "$199.00",
             imageUrl: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=200&q=80",
+            soldPercentage: 72,
             link: "/producto/hyperx-cloud-alpha-wireless"
         },
         {
@@ -85,6 +86,7 @@ export const flashOffersWidget: ListWidget = {
             formattedPrice: "$219.00",
             formattedOriginalPrice: "$249.00",
             imageUrl: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=200&q=80",
+            soldPercentage: 64,
             link: "/producto/razer-huntsman-v3-pro-tkl"
         }
     ]

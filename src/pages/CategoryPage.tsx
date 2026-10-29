@@ -7,21 +7,38 @@ import {
     categoryFiltersData,
     categoryProductsData,
 } from "../data/categoryPageData";
+import { getTabUrl, isPlainLeftClick } from "../data/urlRouter";
 import type { CategoryProductItem } from "../models/categoryPage";
 
 export interface CategoryPageProps {
     category: string;
     onProductClick?: (product: CategoryProductItem) => void;
+    onNavigateHome?: () => void;
 }
+
+const categoryLabels: Record<string, string> = {
+    laptops: "Laptops",
+    monitores: "Monitores",
+    perifericos: "Periféricos",
+    componentes: "Componentes",
+    procesadores: "Procesadores",
+    "tarjetas-de-video": "Tarjetas de Video",
+    almacenamiento: "Almacenamiento",
+    "armado-pc": "Armado de PC",
+};
 
 export default function CategoryPage({
     category,
     onProductClick,
+    onNavigateHome,
 }: CategoryPageProps) {
-    const [selectedValues, setSelectedValues] = useState<string[]>([]);
-    const [maxPrice, setMaxPrice] = useState<number>(30000);
-
     const filters = categoryFiltersData[category] || categoryFiltersData.laptops;
+    const priceFilter = filters.find(f => f.type === "range");
+    const defaultMaxPrice = priceFilter?.max || 45000;
+
+    const [selectedValues, setSelectedValues] = useState<string[]>([]);
+    const [maxPrice, setMaxPrice] = useState<number>(defaultMaxPrice);
+
     const categoryProducts = categoryProductsData.filter(
         p => p.category === category
     );
@@ -36,7 +53,7 @@ export default function CategoryPage({
 
     const handleClearFilters = () => {
         setSelectedValues([]);
-        setMaxPrice(30000);
+        setMaxPrice(defaultMaxPrice);
     };
 
     const filteredProducts = categoryProducts.filter(product => {
@@ -54,21 +71,23 @@ export default function CategoryPage({
         );
     });
 
+    const categoryTitle = categoryLabels[category] || category;
+
     return (
         <main
             style={{
                 width: "100%",
                 flex: 1,
-                backgroundColor: "#f8fafc",
+                backgroundColor: "#f2f6fb",
                 padding: "24px 0 60px 0",
                 boxSizing: "border-box",
             }}
         >
             <div
                 style={{
-                    maxWidth: "1240px",
+                    maxWidth: "1440px",
                     margin: "0 auto",
-                    padding: "0 24px",
+                    padding: "0 2rem",
                     boxSizing: "border-box",
                 }}
             >
@@ -79,7 +98,25 @@ export default function CategoryPage({
                         color: "#64748b",
                     }}
                 >
-                    Inicio &gt; Categoría &gt; <strong style={{ color: "#0f172a", textTransform: "capitalize" }}>{category}</strong>
+                    <a
+                        href={getTabUrl("inicio")}
+                        onClick={e => {
+                            if (isPlainLeftClick(e)) {
+                                e.preventDefault();
+                                onNavigateHome?.();
+                            }
+                        }}
+                        style={{
+                            cursor: "pointer",
+                            color: "#2563eb",
+                            fontWeight: 600,
+                            textDecoration: "none",
+                        }}
+                    >
+                        Inicio
+                    </a>{" "}
+                    &gt; Categoría &gt;{" "}
+                    <strong style={{ color: "#0f172a" }}>{categoryTitle}</strong>
                 </p>
 
                 <div
