@@ -129,7 +129,7 @@ function App() {
     } else if (currentTab !== "inicio") {
       document.title = `${currentTab.charAt(0).toUpperCase() + currentTab.slice(1)} | Gamalion Digital`;
     } else {
-      document.title = "Gamalion Digital";
+      document.title = "Gamalion Digital Mèxico | Electronica a tu alcance";
     }
   }, [currentTab, selectedProduct]);
 
