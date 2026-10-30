@@ -38,6 +38,7 @@ export default function CategoryPage({
 
     const [selectedValues, setSelectedValues] = useState<string[]>([]);
     const [maxPrice, setMaxPrice] = useState<number>(defaultMaxPrice);
+    const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
     const categoryProducts = categoryProductsData.filter(
         p => p.category === category
@@ -79,18 +80,11 @@ export default function CategoryPage({
                 width: "100%",
                 flex: 1,
                 backgroundColor: "#f2f6fb",
-                padding: "24px 0 60px 0",
+                padding: "20px 0 60px 0",
                 boxSizing: "border-box",
             }}
         >
-            <div
-                style={{
-                    maxWidth: "1440px",
-                    margin: "0 auto",
-                    padding: "0 2rem",
-                    boxSizing: "border-box",
-                }}
-            >
+            <div className="site-container">
                 <p
                     style={{
                         margin: "0 0 16px 0",
@@ -119,22 +113,40 @@ export default function CategoryPage({
                     <strong style={{ color: "#0f172a" }}>{categoryTitle}</strong>
                 </p>
 
-                <div
-                    style={{
-                        display: "grid",
-                        gridTemplateColumns: "250px 1fr",
-                        gap: "20px",
-                        alignItems: "start",
-                    }}
+                <button
+                    type="button"
+                    className="category-mobile-filter-btn"
+                    onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
                 >
-                    <CategorySidebarFilters
-                        filters={filters}
-                        selectedValues={selectedValues}
-                        maxPrice={maxPrice}
-                        onToggleOption={handleToggleOption}
-                        onPriceChange={setMaxPrice}
-                        onClearFilters={handleClearFilters}
-                    />
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="4" y1="21" x2="4" y2="14" />
+                        <line x1="4" y1="10" x2="4" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="12" />
+                        <line x1="12" y1="8" x2="12" y2="3" />
+                        <line x1="20" y1="21" x2="20" y2="16" />
+                        <line x1="20" y1="12" x2="20" y2="3" />
+                        <line x1="1" y1="14" x2="7" y2="14" />
+                        <line x1="9" y1="8" x2="15" y2="8" />
+                        <line x1="17" y1="16" x2="23" y2="16" />
+                    </svg>
+                    <span>
+                        {isMobileFiltersOpen
+                            ? "Ocultar filtros"
+                            : `Filtrar productos (${selectedValues.length > 0 ? selectedValues.length : "Todos"})`}
+                    </span>
+                </button>
+
+                <div className="category-layout-grid">
+                    <div className={`category-sidebar-desktop ${isMobileFiltersOpen ? "is-open-mobile" : ""}`}>
+                        <CategorySidebarFilters
+                            filters={filters}
+                            selectedValues={selectedValues}
+                            maxPrice={maxPrice}
+                            onToggleOption={handleToggleOption}
+                            onPriceChange={setMaxPrice}
+                            onClearFilters={handleClearFilters}
+                        />
+                    </div>
 
                     <ProductHorizontalList
                         products={filteredProducts}

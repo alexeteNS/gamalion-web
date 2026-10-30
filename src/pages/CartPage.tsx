@@ -121,11 +121,8 @@ export default function CartPage({
             }}
         >
             <div
+                className="site-container"
                 style={{
-                    maxWidth: "1440px",
-                    margin: "0 auto",
-                    padding: "0 2rem",
-                    boxSizing: "border-box",
                     display: "flex",
                     flexDirection: "column",
                     gap: "20px",
@@ -231,14 +228,7 @@ export default function CartPage({
                         </button>
                     </div>
                 ) : (
-                    <div
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr 320px",
-                            gap: "20px",
-                            alignItems: "start",
-                        }}
-                    >
+                    <div className="cart-layout-grid">
                         <div
                             style={{
                                 display: "flex",
@@ -259,6 +249,7 @@ export default function CartPage({
                         </div>
 
                         <aside
+                            className="cart-summary-card"
                             style={{
                                 backgroundColor: "#ffffff",
                                 border: "1px solid #e2e8f0",
@@ -268,8 +259,6 @@ export default function CartPage({
                                 flexDirection: "column",
                                 gap: "14px",
                                 boxSizing: "border-box",
-                                position: "sticky",
-                                top: "90px",
                             }}
                         >
                             <div

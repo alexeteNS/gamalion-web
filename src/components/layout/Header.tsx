@@ -48,11 +48,13 @@ export default function Header({
     onCartClick,
 }: HeaderProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleTabSelect = (e: React.MouseEvent, tabId: string) => {
         if (!isPlainLeftClick(e)) return;
         e.preventDefault();
         setIsDropdownOpen(false);
+        setIsMobileMenuOpen(false);
         onTabChange?.(tabId);
     };
 
@@ -60,8 +62,11 @@ export default function Header({
         if (!isPlainLeftClick(e)) return;
         e.preventDefault();
         setIsDropdownOpen(false);
+        setIsMobileMenuOpen(false);
         onCartClick?.();
     };
+
+    const allMobileCategories = [...defaultNavItems, ...extraCategoryItems];
 
     return (
         <header
@@ -79,23 +84,20 @@ export default function Header({
             }}
         >
             <div
+                className="site-container"
                 style={{
-                    width: "100%",
-                    maxWidth: "1440px",
                     height: "70px",
-                    padding: "0 2rem",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    gap: "1rem",
-                    boxSizing: "border-box",
+                    gap: "0.75rem",
                 }}
             >
                 <div
                     style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: isSearchOpen ? "1.1rem" : "2.5rem",
+                        gap: isSearchOpen ? "0.8rem" : "2rem",
                         transition: "gap 0.25s ease",
                     }}
                 >
@@ -105,7 +107,7 @@ export default function Header({
                         style={{
                             display: "flex",
                             alignItems: "center",
-                            gap: "0.6rem",
+                            gap: "0.5rem",
                             cursor: "pointer",
                             userSelect: "none",
                             flexShrink: 0,
@@ -114,8 +116,8 @@ export default function Header({
                     >
                         <div
                             style={{
-                                width: "36px",
-                                height: "36px",
+                                width: "34px",
+                                height: "34px",
                                 borderRadius: "8px",
                                 backgroundColor: "#2563eb",
                                 color: "#ffffff",
@@ -137,16 +139,15 @@ export default function Header({
                                 }}
                             />
                         </div>
-                        <div style={{ display: "flex", alignItems: "baseline", gap: "0.25rem", fontSize: "1.25rem", fontWeight: 800 }}>
+                        <div style={{ display: "flex", alignItems: "baseline", gap: "0.2rem", fontSize: "1.15rem", fontWeight: 800 }}>
                             <span style={{ color: "#0f172a" }}>{brandFirst}</span>
                             <span style={{ color: "#2563eb" }}>{brandSecond}</span>
                         </div>
                     </a>
 
                     <nav
+                        className="header-nav-desktop"
                         style={{
-                            display: "flex",
-                            alignItems: "center",
                             transform: isSearchOpen ? "translateX(-8px)" : "translateX(0)",
                             transition: "transform 0.25s ease",
                         }}
@@ -278,7 +279,7 @@ export default function Header({
                     </nav>
                 </div>
 
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flex: isSearchOpen ? 1 : "unset", justifyContent: "flex-end", marginLeft: isSearchOpen ? "1rem" : 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flex: isSearchOpen ? 1 : "unset", justifyContent: "flex-end" }}>
                     {isSearchOpen ? (
                         <div
                             style={{
@@ -290,7 +291,7 @@ export default function Header({
                                 backgroundColor: "#f8fafc",
                                 border: "1px solid #cbd5e1",
                                 borderRadius: "999px",
-                                padding: "7px 16px",
+                                padding: "6px 14px",
                                 boxSizing: "border-box",
                             }}
                         >
@@ -302,15 +303,16 @@ export default function Header({
                             <input
                                 type="text"
                                 autoFocus
-                                placeholder="Buscar laptops, monitores..."
+                                placeholder="Buscar productos..."
                                 value={searchQuery}
                                 onChange={e => onSearchQueryChange?.(e.target.value)}
                                 style={{
                                     flex: 1,
+                                    minWidth: 0,
                                     border: "none",
                                     outline: "none",
                                     backgroundColor: "transparent",
-                                    fontSize: "0.88rem",
+                                    fontSize: "0.85rem",
                                     color: "#0f172a",
                                 }}
                             />
@@ -339,7 +341,7 @@ export default function Header({
                             style={{
                                 background: "none",
                                 border: "none",
-                                padding: "0.5rem",
+                                padding: "0.45rem",
                                 borderRadius: "50%",
                                 color: "#334155",
                                 cursor: "pointer",
@@ -362,7 +364,7 @@ export default function Header({
                         style={{
                             position: "relative",
                             background: "none",
-                            padding: "0.5rem",
+                            padding: "0.45rem",
                             borderRadius: "50%",
                             color: "#334155",
                             cursor: "pointer",
@@ -400,8 +402,101 @@ export default function Header({
                             </span>
                         )}
                     </a>
+
+                    <button
+                        type="button"
+                        aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        className="header-mobile-toggle"
+                        style={{
+                            background: "none",
+                            border: "none",
+                            padding: "0.45rem",
+                            borderRadius: "6px",
+                            color: "#0f172a",
+                            cursor: "pointer",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        {isMobileMenuOpen ? (
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18" />
+                                <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                        ) : (
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="4" y1="6" x2="20" y2="6" />
+                                <line x1="4" y1="12" x2="20" y2="12" />
+                                <line x1="4" y1="18" x2="20" y2="18" />
+                            </svg>
+                        )}
+                    </button>
                 </div>
             </div>
+
+            {isMobileMenuOpen && (
+                <div
+                    style={{
+                        position: "absolute",
+                        top: "70px",
+                        left: 0,
+                        width: "100%",
+                        backgroundColor: "#ffffff",
+                        borderBottom: "1px solid #e2e8f0",
+                        boxShadow: "0 10px 25px rgba(0, 0, 0, 0.08)",
+                        zIndex: 99,
+                        padding: "1rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "4px",
+                        boxSizing: "border-box",
+                        maxHeight: "calc(100vh - 80px)",
+                        overflowY: "auto",
+                    }}
+                >
+                    <span
+                        style={{
+                            fontSize: "0.75rem",
+                            fontWeight: 700,
+                            color: "#94a3b8",
+                            textTransform: "uppercase",
+                            letterSpacing: "0.06em",
+                            padding: "4px 8px",
+                        }}
+                    >
+                        Navegación
+                    </span>
+
+                    {allMobileCategories.map(cat => {
+                        const isActive = initialTab === cat.id;
+                        return (
+                            <a
+                                key={cat.id}
+                                href={getTabUrl(cat.id)}
+                                onClick={e => handleTabSelect(e, cat.id)}
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    padding: "10px 12px",
+                                    borderRadius: "8px",
+                                    fontSize: "0.95rem",
+                                    fontWeight: isActive ? 700 : 500,
+                                    color: isActive ? "#2563eb" : "#1e293b",
+                                    backgroundColor: isActive ? "#eff6ff" : "transparent",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                <span>{cat.label}</span>
+                                {isActive && (
+                                    <span style={{ fontSize: "0.85rem", color: "#2563eb" }}>●</span>
+                                )}
+                            </a>
+                        );
+                    })}
+                </div>
+            )}
         </header>
     );
 }

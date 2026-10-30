@@ -27,10 +27,10 @@ export default function Hero({
 }: HeroProps) {
     return (
         <section
+            className="hero-section"
             style={{
                 position: "relative",
                 width: "100%",
-                minHeight: "780px",
                 background:
                     "linear-gradient(180deg, #102a56 0%, #163568 22%, #21457d 38%, #355b94 52%, #5378ad 66%, #7d9dc7 78%, #b0c5e0 88%, #dce7f5 95%, #f2f6fb 100%)",
                 backgroundImage:
@@ -40,21 +40,17 @@ export default function Hero({
                 flexDirection: "column",
                 justifyContent: "flex-start",
                 alignItems: "center",
-                padding: "3.5rem 2rem 19rem 2rem",
                 boxSizing: "border-box",
                 overflow: "visible",
             }}
         >
             <div
+                className="hero-grid"
                 style={{
                     position: "relative",
                     zIndex: 2,
                     width: "100%",
                     maxWidth: "1440px",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                    gap: "3rem",
-                    alignItems: "center",
                 }}
             >
                 <div
@@ -66,7 +62,7 @@ export default function Hero({
                 >
                     <h1
                         style={{
-                            fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
+                            fontSize: "clamp(1.9rem, 4vw, 3.4rem)",
                             fontWeight: 800,
                             lineHeight: 1.15,
                             letterSpacing: "-0.025em",
@@ -82,11 +78,11 @@ export default function Hero({
 
                     <p
                         style={{
-                            fontSize: "1.05rem",
+                            fontSize: "1rem",
                             lineHeight: 1.6,
                             color: "#dbeafe",
                             maxWidth: "520px",
-                            margin: "0 0 2rem 0",
+                            margin: "0 0 1.75rem 0",
                         }}
                     >
                         {subtitle}
@@ -96,7 +92,7 @@ export default function Hero({
                         style={{
                             display: "flex",
                             flexWrap: "wrap",
-                            gap: "1rem",
+                            gap: "0.85rem",
                             alignItems: "center",
                         }}
                     >

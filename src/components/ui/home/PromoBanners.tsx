@@ -14,37 +14,29 @@ export default function PromoBanners({
         <section
             style={{
                 width: "100%",
-                padding: "0 2rem 2.5rem 2rem",
+                paddingBottom: "2.5rem",
                 boxSizing: "border-box",
                 display: "flex",
                 justifyContent: "center",
             }}
         >
-            <div
-                style={{
-                    width: "100%",
-                    maxWidth: "1440px",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(420px, 1fr))",
-                    gap: "1.5rem",
-                }}
-            >
-                {banners.map((banner) => (
-                    <article
-                        key={banner.id}
-                        onClick={() => onBannerClick?.(banner.category)}
-                        style={{
-                            backgroundColor: "#ffffff",
-                            border: "1px solid #dce5f2",
-                            borderRadius: "14px",
-                            overflow: "hidden",
-                            display: "grid",
-                            gridTemplateColumns: "1.15fr 0.85fr",
-                            minHeight: "230px",
-                            boxShadow: "0 4px 16px rgba(15, 23, 42, 0.04)",
-                            cursor: "pointer",
-                        }}
-                    >
+            <div className="site-container">
+                <div className="promo-banners-grid">
+                    {banners.map((banner) => (
+                        <article
+                            key={banner.id}
+                            className="promo-banner-card"
+                            onClick={() => onBannerClick?.(banner.category)}
+                            style={{
+                                backgroundColor: "#ffffff",
+                                border: "1px solid #dce5f2",
+                                borderRadius: "14px",
+                                overflow: "hidden",
+                                minHeight: "220px",
+                                boxShadow: "0 4px 16px rgba(15, 23, 42, 0.04)",
+                                cursor: "pointer",
+                            }}
+                        >
                         <div
                             style={{
                                 padding: "2rem 2.25rem",
@@ -129,6 +121,7 @@ export default function PromoBanners({
                         </div>
                     </article>
                 ))}
+                </div>
             </div>
         </section>
     );

@@ -95,13 +95,11 @@ export default function HomePage({
             />
 
             <div
+                className="site-container"
                 style={{
-                    width: "100%",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    padding: "0 2rem",
-                    boxSizing: "border-box",
                     position: "relative",
                     zIndex: 3,
                 }}
@@ -130,13 +128,11 @@ export default function HomePage({
             />
 
             <div
+                className="site-container"
                 style={{
-                    width: "100%",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    padding: "0 2rem",
-                    boxSizing: "border-box",
                     position: "relative",
                     zIndex: 3,
                 }}

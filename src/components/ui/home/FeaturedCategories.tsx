@@ -64,20 +64,19 @@ export default function FeaturedCategories({
         <section
             style={{
                 width: "100%",
-                padding: overlap ? "0 2rem 2.5rem 2rem" : "1rem 2rem 2.5rem 2rem",
                 boxSizing: "border-box",
                 display: "flex",
                 justifyContent: "center",
                 backgroundColor: "transparent",
                 position: overlap ? "relative" : undefined,
                 zIndex: overlap ? 3 : undefined,
-                marginTop: overlap ? "-6rem" : undefined,
+                marginTop: overlap ? "-5rem" : undefined,
+                paddingBottom: "2rem",
             }}
         >
             <div
+                className="site-container"
                 style={{
-                    width: "100%",
-                    maxWidth: "1440px",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -85,25 +84,18 @@ export default function FeaturedCategories({
             >
                 <h2
                     style={{
-                        fontSize: "1.6rem",
+                        fontSize: "clamp(1.3rem, 2.5vw, 1.6rem)",
                         fontWeight: 800,
                         color: "#0f172a",
                         textAlign: "center",
-                        margin: "0 0 2rem 0",
+                        margin: "0 0 1.5rem 0",
                         letterSpacing: "-0.02em",
                     }}
                 >
                     {title}
                 </h2>
 
-                <div
-                    style={{
-                        width: "100%",
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                        gap: "1.5rem",
-                    }}
-                >
+                <div className="featured-categories-grid">
                     {categories.map((cat) => (
                         <div
                             key={cat.id}

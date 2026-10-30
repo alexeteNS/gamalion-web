@@ -17,22 +17,21 @@ export default function BrowsingHistorySection({
 
     return (
         <section
+            className="site-container"
             style={{
-                width: "100%",
-                padding: "0 2rem 4rem 2rem",
-                boxSizing: "border-box",
+                paddingBottom: "4rem",
                 display: "flex",
                 justifyContent: "center",
             }}
         >
             <div
+                className="history-card"
                 style={{
                     width: "100%",
                     maxWidth: "1440px",
                     backgroundColor: "#ffffff",
                     border: "1px solid #dce5f2",
                     borderRadius: "16px",
-                    padding: "1.75rem 2.25rem",
                     boxSizing: "border-box",
                     boxShadow: "0 4px 16px rgba(15, 23, 42, 0.04)",
                     display: "flex",

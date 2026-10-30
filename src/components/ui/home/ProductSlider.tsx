@@ -46,13 +46,13 @@ export default function ProductSlider({
 
     return (
         <section
+            className="product-slider-card"
             style={{
                 width: "100%",
                 maxWidth: "1440px",
                 backgroundColor: "#ffffff",
                 border: "1px solid #dce5f2",
                 borderRadius: "20px",
-                padding: "1.75rem 2rem",
                 boxSizing: "border-box",
                 boxShadow: "0 4px 18px rgba(15, 23, 42, 0.04)",
                 display: "flex",

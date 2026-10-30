@@ -24,6 +24,7 @@ export default function RectImage({
             style={{
                 width: width,
                 height: height,
+                maxWidth: "100%",
                 backgroundColor: "transparent",
                 padding: "2px",
                 border: isSelected ? "2px solid #111827" : "1px solid #e5e7eb",

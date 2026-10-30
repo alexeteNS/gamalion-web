@@ -26,11 +26,10 @@ export default function Footer({ onNavigateHome }: FooterProps) {
             }}
         >
             <div
+                className="site-container"
                 style={{
-                    maxWidth: "1440px",
-                    margin: "0 auto",
-                    padding: "2.5rem 2rem 1.5rem",
-                    boxSizing: "border-box",
+                    paddingTop: "2.5rem",
+                    paddingBottom: "1.5rem",
                 }}
             >
                 <div

@@ -17,24 +17,23 @@ export default function HomeWidgets({
 }: HomeWidgetsProps) {
     return (
         <section
+            className={overlap ? "home-widgets-section" : undefined}
             style={{
                 width: "100%",
-                padding: overlap ? "0 2rem 2rem 2rem" : "2.5rem 2rem",
                 boxSizing: "border-box",
                 display: "flex",
                 justifyContent: "center",
                 position: overlap ? "relative" : undefined,
                 zIndex: overlap ? 3 : undefined,
-                marginTop: overlap ? "-13rem" : undefined,
+                padding: overlap ? undefined : "2rem 0",
             }}
         >
             <div
+                className="site-container"
                 style={{
-                    width: "100%",
-                    maxWidth: "1440px",
                     display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                    gap: "1.75rem",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))",
+                    gap: "1.5rem",
                     alignItems: "stretch",
                 }}
             >

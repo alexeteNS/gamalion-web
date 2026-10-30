@@ -53,6 +53,7 @@ export default function SearchPanel({
 
     return (
         <div
+            className="search-panel-container"
             style={{
                 position: "fixed",
                 top: "70px",
@@ -61,7 +62,6 @@ export default function SearchPanel({
                 zIndex: 99,
                 display: "flex",
                 justifyContent: "center",
-                padding: "0 2rem",
                 boxSizing: "border-box",
                 pointerEvents: "none",
             }}

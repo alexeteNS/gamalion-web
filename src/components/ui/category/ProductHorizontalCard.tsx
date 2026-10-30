@@ -63,15 +63,16 @@ export default function ProductHorizontalCard({
         >
             <a
                 href={productHref}
+                className="category-card-thumb"
                 onMouseDown={() => cacheDynamicProduct(product)}
                 onClick={handleProductLinkClick}
                 style={{
                     display: "flex",
                     alignItems: "flex-start",
                     gap: "12px",
-                    width: "220px",
                     cursor: "pointer",
                     textDecoration: "none",
+                    boxSizing: "border-box",
                 }}
             >
                 <span
@@ -98,8 +99,8 @@ export default function ProductHorizontalCard({
 
             <div
                 style={{
-                    flex: 1,
-                    minWidth: "250px",
+                    flex: "1 1 220px",
+                    minWidth: "200px",
                     display: "flex",
                     flexDirection: "column",
                     gap: "6px",
@@ -151,11 +152,12 @@ export default function ProductHorizontalCard({
             </div>
 
             <div
+                className="category-card-actions"
                 style={{
-                    width: "210px",
                     display: "flex",
                     flexDirection: "column",
                     gap: "8px",
+                    boxSizing: "border-box",
                 }}
             >
                 <div>
