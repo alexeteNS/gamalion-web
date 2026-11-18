@@ -1,0 +1,155 @@
+import type { CategoryItem } from "../../../models/category";
+
+export interface FeaturedCategoriesProps {
+    title?: string;
+    categories?: CategoryItem[];
+    overlap?: boolean;
+    onCategoryClick?: (category: CategoryItem) => void;
+}
+
+const renderCategoryIcon = (icon: string) => {
+    switch (icon) {
+        case "cpu":
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="4" y="4" width="16" height="16" rx="2" />
+                    <rect x="9" y="9" width="6" height="6" />
+                    <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3" />
+                </svg>
+            );
+        case "gpu":
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="6" width="20" height="12" rx="6" />
+                    <path d="M6 12h4M8 10v4" />
+                    <circle cx="15" cy="11" r="1" fill="currentColor" />
+                    <circle cx="18" cy="13" r="1" fill="currentColor" />
+                </svg>
+            );
+        case "laptop":
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="12" rx="2" />
+                    <line x1="2" y1="20" x2="22" y2="20" />
+                </svg>
+            );
+        case "storage":
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="4" width="20" height="7" rx="2" />
+                    <rect x="2" y="13" width="20" height="7" rx="2" />
+                    <circle cx="18" cy="7.5" r="1" fill="currentColor" />
+                    <circle cx="18" cy="16.5" r="1" fill="currentColor" />
+                </svg>
+            );
+        default:
+            return (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+            );
+    }
+};
+
+export default function FeaturedCategories({
+    title = "Categorías Destacadas",
+    categories = [],
+    overlap = false,
+    onCategoryClick,
+}: FeaturedCategoriesProps) {
+    if (categories.length === 0) return null;
+    return (
+        <section
+            style={{
+                width: "100%",
+                boxSizing: "border-box",
+                display: "flex",
+                justifyContent: "center",
+                backgroundColor: "transparent",
+                position: overlap ? "relative" : undefined,
+                zIndex: overlap ? 3 : undefined,
+                marginTop: overlap ? "-5rem" : undefined,
+                paddingBottom: "2rem",
+            }}
+        >
+            <div
+                className="site-container"
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }}
+            >
+                <h2
+                    style={{
+                        fontSize: "clamp(1.3rem, 2.5vw, 1.6rem)",
+                        fontWeight: 800,
+                        color: "#0f172a",
+                        textAlign: "center",
+                        margin: "0 0 1.5rem 0",
+                        letterSpacing: "-0.02em",
+                    }}
+                >
+                    {title}
+                </h2>
+
+                <div className="featured-categories-grid">
+                    {categories.map((cat) => (
+                        <div
+                            key={cat.id}
+                            onClick={() => onCategoryClick?.(cat)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    onCategoryClick?.(cat);
+                                }
+                            }}
+                            style={{
+                                backgroundColor: "#ffffff",
+                                border: "1px solid #e2e8f0",
+                                borderRadius: "12px",
+                                padding: "1.25rem 1rem",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: "0.75rem",
+                                cursor: "pointer",
+                                transition: "transform 0.15s ease, box-shadow 0.15s ease",
+                                boxShadow: "0 2px 8px rgba(15, 23, 42, 0.04)",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    width: "48px",
+                                    height: "48px",
+                                    borderRadius: "12px",
+                                    backgroundColor: "#eff6ff",
+                                    color: "#2563eb",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                }}
+                            >
+                                {renderCategoryIcon(cat.icon)}
+                            </div>
+                            <span
+                                style={{
+                                    fontSize: "0.92rem",
+                                    fontWeight: 700,
+                                    color: "#0f172a",
+                                    textAlign: "center",
+                                }}
+                            >
+                                {cat.name}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
